@@ -1,8 +1,8 @@
-import HomePage from "./routes/homePage/homePage";
 import {
-  createBrowserRouter,BrowserRouter,
-  RouterProvider,Routes,Route
+  createBrowserRouter,
+  RouterProvider
 } from "react-router-dom";
+import HomePage from "./routes/homePage/homePage";
 import ListPage from "./routes/listPage/listPage";
 import Layout from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
@@ -15,42 +15,37 @@ function App() {
     {
       path: "/",
       element: <Layout />,
-      children:[
+      children: [
         {
-          path:"/",
-          element:<HomePage/>
+          path: "/",
+          element: <HomePage />
         },
         {
-          path:"/list",
-          element:<ListPage/>
+          path: "/list",
+          element: <ListPage />
         },
         {
-          path:"/:id",
-          element:<SinglePage/>
+          path: "/:id",
+          element: <SinglePage />
         },
         {
-          path:"/profile",
-          element:<ProfilePage/>
+          path: "/profile",
+          element: <ProfilePage />
         },
-        
       ],
-      
     },
     {
-         path:"/register",
-          element:<Register/>
+      path: "/register",
+      element: <Register />
     },
     {
-          path:"/login",
-          element:<Login/>
-        }
+      path: "/login",
+      element: <Login />
+    }
   ]);
 
   return (
-<div>
     <RouterProvider router={router} />
-    
-    </div>
   );
 }
 

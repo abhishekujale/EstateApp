@@ -8,7 +8,7 @@ mongoose.connect(process.env.DATABASE_URL).then((data) => {
 
 const userSchema = new mongoose.Schema({
 
-    email: { type: String, required: true, unique: true, trim: true, lowercase: true, minLength: 3, maxLength: 30 },
+    email: { type: String, required: true, unique: true, trim: true, lowercase: true, minLength: 3, maxLength: 50 },
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true, trim: true },
     avatar: { type: String, required: false, trim: true, maxLength: 10 },
@@ -17,6 +17,4 @@ const userSchema = new mongoose.Schema({
 
 const user = mongoose.model("user", userSchema);
 
-module.exports = {
-    user
-}
+module.exports = { user }
