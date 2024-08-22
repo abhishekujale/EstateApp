@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import apiRequest from "../../lib/apiRequest";
@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const [updateUser, currentUser] = useContext(AuthContext);
+  const {updateUser, currentUser} = useContext(AuthContext);
   const handleLogout = async () => {
     try {
       const response = await apiRequest.post("/auth/logout"); 
@@ -24,12 +24,16 @@ function ProfilePage() {
     }
   }
   return (
+    !currentUser ?<Navigate to="/login"/>
+      :
     <div className="profilePage">
       <div className="details">
         <div className="wrapper">
           <div className="title">
             <h1>User Information</h1>
-            <button>Update Profile</button>
+              <button onClick={() => {
+                navigate("/profile/update")
+            }}>  Update Profile</button>
           </div>
           <div className="info">
             <span>

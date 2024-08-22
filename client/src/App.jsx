@@ -9,7 +9,8 @@ import SinglePage from "./routes/singlePage/singlePage";
 import ProfilePage from "./routes/profilePage/profilePage";
 import Login from "./routes/login/login";
 import Register from "./routes/register/register";
-
+import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
+import RequireAuth from "./routes/layout/RequireAuth";
 function App() {
   const router = createBrowserRouter([
     {
@@ -41,6 +42,21 @@ function App() {
     {
       path: "/login",
       element: <Login />
+    }
+    ,
+    {
+      path: "/",
+      element: <RequireAuth />,
+      children: [
+        {
+          path: "/profile",
+          element:<ProfilePage/>
+        },
+        {
+          path: "/profile/update",
+          element: <ProfileUpdatePage />
+        }
+      ]
     }
   ]);
 

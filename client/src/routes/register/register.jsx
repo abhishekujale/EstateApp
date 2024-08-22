@@ -53,13 +53,12 @@ const handleSubmit = async (e) => {
     <div className="register">
       <div className="formContainer">
           <div className="SubmitContainer">
-
         <form onSubmit={handleSubmit}>
           <h1>Create an Account</h1>
-            <input name="username" type="text" placeholder="Username" />
+          <input name="username" type="text" placeholder="Username" />
           <input name="email" type="text" placeholder="Email" />
           <input name="password" type="password" placeholder="Password" />
-          <input name="avatar" type="password" placeholder="avatar" />
+          <input name="avatar" type="text" placeholder="avatar" />
           <button >Register</button>
             <Link to="/login">Already  have an account !</Link>
             {error && <span>{error}</span> }

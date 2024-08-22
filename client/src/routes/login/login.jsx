@@ -8,7 +8,7 @@ function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { updateUser } = useContext(AuthContext); // Ensure updateUser is part of AuthContext
+  const { updateUser  } = useContext(AuthContext); // Ensure updateUser is part of AuthContext
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,13 +26,14 @@ function Login() {
         password,
       });
 
-      updateUser(res.data); // Ensure this is defined and working correctly
-      localStorage.setItem("User", JSON.stringify(res.data));
+      updateUser (res.data); // Ensure this is defined and working correctly
+      localStorage.setItem("user", JSON.stringify(res.data));
 
       console.log('Navigating to');
       navigate("/"); // Ensure /profile is a valid route
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      setError(err.response?.data?.message || "Invalid Credentials");
+      console.log(err)
     } finally {
       setIsLoading(false);
     }
