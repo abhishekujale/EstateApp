@@ -39,7 +39,7 @@ function ProfilePage() {
             <span>
               Avatar:
               <img
-                src={"/noavatar.jpeg"}
+                src={currentUser.avatar|| "/noavatar.jpeg"}
                 alt=""
               />
             </span>
