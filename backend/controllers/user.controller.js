@@ -29,15 +29,12 @@ const getUser = async (req, res) => {
 }
 const updateUsers = async (req, res) => {
     const id = req.params.id;
-    const tokenId = req.userId;
+    const tokenUserId = req.userId;
     const { password, avatar, ...inputs } = req.body;
-    // if (id != tokenId) {
-    //     return res.status(403).json({
-    //         message: "You can only update your own user"
-    //     })
-    // }
     let updatedPassword = null;
-
+    console.log("hello from upadteuser backend");
+    console.log("Token", tokenUserId);
+    console.log("user", id);
     if (id !== tokenUserId) {
         return res.status(403).json({ message: "Not Authorized!" });
     }
@@ -57,9 +54,10 @@ const updateUsers = async (req, res) => {
                 new: true
             }
         );
+        console.log(updatedUser);
         const { password: userPassword, ...rest } = updatedUser;
 
-        res.status(200).json(rest);
+        res.status(200).json(updatedUser);
     }
     catch (err) {
         console.log(err);

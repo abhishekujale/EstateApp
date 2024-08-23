@@ -13,10 +13,10 @@ const handleSubmit = async (e) => {
   
   const formData = new FormData(e.target);
   
-  const username = formData.get("username");
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const avatar = formData.get("avatar");
+  const username = e.target.username.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  const avatar = e.target.avatar.value;
   
   try {
     const response = await fetch("http://localhost:8000/api/auth/signup", {
@@ -34,6 +34,7 @@ const handleSubmit = async (e) => {
     
     // Check if the response is ok (status is in the range 200-299)
     if (!response.ok) {
+      console.log(response);
       const errorData = await response.json();
       throw new Error(errorData.message || 'Something went wrong');
     }
@@ -44,6 +45,7 @@ const handleSubmit = async (e) => {
     navigate("/login");
   } catch (error) {
     // Log and display the error message
+    console.log(error);
     setError(error.message);
   }
 }

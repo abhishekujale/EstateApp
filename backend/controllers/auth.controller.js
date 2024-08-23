@@ -15,7 +15,6 @@ const app = express();
 app.use(cookieParser());
 
 const signup = async (req, res) => {
-    console.log("hii from signup route");
     const success = signupBody.safeParse(req.body);
     if (!success.success) {
         return res.status(400).json({
