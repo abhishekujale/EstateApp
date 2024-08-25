@@ -1,12 +1,64 @@
+import { useState } from "react";
 import "./newPostPage.scss";
-
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
+import apiRequest from "../../lib/apiRequest";
+import UploadWidget from "../../components/uploadWidget/UploadWidget";
+import { useNavigate } from "react-router-dom";
 function NewPostPage() {
+  const [value, setValue] = useState("");
+  const navigate = useNavigate();
+  const [error, setError] = useState("")
+const [images,setImages]=useState([])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target)
+    const inputs = Object.fromEntries(formData);
+    try {
+      const res = await apiRequest.post("/post", {
+     //////2:49:40 
+       postData:{
+          title: inputs.title,
+          price: parseInt(inputs.price),
+          address: inputs.address,
+          city: inputs.city,
+          bedroom: parseInt(inputs.bedroom),
+          bathroom: parseInt(inputs.bathroom),
+          type: inputs.type,
+          property: inputs.property,
+          latitude: inputs.latitude,
+          longitude: inputs.longitude,
+          images:images
+        },
+        PostDetail: {
+        desc: value,
+        utilities: inputs.utilities,
+        pet: inputs.pet,
+        income: inputs.income,
+        size: parseInt(inputs.size),
+        school: inputs.school,
+        bus: parseInt(inputs.bus),
+        restaurant:parseInt(inputs.restaurant)
+      }
+      }
+      )
+      navigate(`/${res.data?.newPost?._id}`)
+      // console.log(res.data?.newPost?._id);
+      // console.log(res)
+    }
+    catch (err)
+    {
+      setError(err.response?.data?.message || "An error occurred. Please try again.");
+      console.log(err)// Extract error message
+    }
+  }
   return (
     <div className="newPostPage">
       <div className="formContainer">
         <h1>Add New Post</h1>
         <div className="wrapper">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="item">
               <label htmlFor="title">Title</label>
               <input id="title" name="title" type="text" />
@@ -21,6 +73,8 @@ function NewPostPage() {
             </div>
             <div className="item description">
               <label htmlFor="desc">Description</label>
+            <ReactQuill theme="snow" onChange={setValue} value={value}/>
+
             </div>
             <div className="item">
               <label htmlFor="city">City</label>
@@ -28,11 +82,12 @@ function NewPostPage() {
             </div>
             <div className="item">
               <label htmlFor="bedroom">Bedroom Number</label>
-              <input min={1} id="bedroom" name="bedroom" type="number" />
+              <input  id="bedroom" name="bedroom" type="number"/>
             </div>
             <div className="item">
-              <label htmlFor="bathroom">Bathroom Number</label>
-              <input min={1} id="bathroom" name="bathroom" type="number" />
+            <label htmlFor="bathroom">Bathroom Number</label>
+<input id="bathroom" name="bathroom" type="number" />
+
             </div>
             <div className="item">
               <label htmlFor="latitude">Latitude</label>
@@ -45,7 +100,7 @@ function NewPostPage() {
             <div className="item">
               <label htmlFor="type">Type</label>
               <select name="type">
-                <option value="rent" defaultChecked>
+                <option value="rent"  defaultChecked>
                   Rent
                 </option>
                 <option value="buy">Buy</option>
@@ -78,6 +133,7 @@ function NewPostPage() {
             <div className="item">
               <label htmlFor="income">Income Policy</label>
               <input
+                min={1}
                 id="income"
                 name="income"
                 type="text"
@@ -102,9 +158,31 @@ function NewPostPage() {
             </div>
             <button className="sendButton">Add</button>
           </form>
+    {error && <span className="error">{error}</span>}
         </div>
       </div>
-      <div className="sideContainer"></div>
+      <div className="sideContainer">
+
+        {
+          images.map((image,index) => {
+            return (
+              <img src={image} key={index}  />
+            )
+          })
+        }
+      
+        <UploadWidget uwConfig={{
+
+cloudName:"diuccng9g",
+          uploadPreset: "estate",
+          maxFiles: 3,
+          multiple: true,
+          maxFileSize: 1024 * 1024 * 2,
+          folder: "posts"
+        }}
+          setState={setImages}
+        />
+      </div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-const { user } = require("../db")
+const { User } = require("../db")
 const bcrypt = require("bcrypt");
 
 const getUsers = async (req, res) => {
     try {
-        const data = await user.find();
+        const data = await User.find();
         res.status(200).send(data);
     }
     catch (err) {
@@ -17,7 +17,7 @@ const getUser = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const data = await user.findById(id);
+        const data = await User.findById(id);
         res.status(200).send(data);
     }
     catch (err) {
@@ -28,13 +28,11 @@ const getUser = async (req, res) => {
     }
 }
 const updateUsers = async (req, res) => {
+    console.log("User Model", User);
     const id = req.params.id;
     const tokenUserId = req.userId;
     const { password, avatar, ...inputs } = req.body;
     let updatedPassword = null;
-    console.log("hello from upadteuser backend");
-    console.log("Token", tokenUserId);
-    console.log("user", id);
     if (id !== tokenUserId) {
         return res.status(403).json({ message: "Not Authorized!" });
     }
@@ -42,7 +40,7 @@ const updateUsers = async (req, res) => {
         if (password) {
             updatedPassword = await bcrypt.hash(password, 10);
         }
-        const updatedUser = await user.findOneAndUpdate({
+        const updatedUser = await User.findOneAndUpdate({
             _id: id
         },
             {
@@ -76,7 +74,7 @@ const deleteUser = async (req, res) => {
     }
     try {
 
-        await user.findOneAndDelete({
+        await User.findOneAndDelete({
             _id: id
         }, {
             new: true

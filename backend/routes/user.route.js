@@ -1,5 +1,5 @@
 const express = require("express");
-const verifyToken = require("../middleware/verifyToken.js")
+const { verifyToken } = require("../middleware/verifyToken.js")
 const { getUsers, getUser, deleteUser, updateUsers } = require("../controllers/user.controller.js")
 const router = express.Router();
 // Routes for authentication

@@ -2,35 +2,50 @@ import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
 import Map from "../../components/map/Map";
 import { singlePostData, userData } from "../../lib/dummydata";
-
+import { useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 function SinglePage() {
+  const post = useLoaderData();
+  const {currentUser}=useContext(AuthContext);
+ if (!currentUser) {
+      navigate("/login");
+    }
+
+   if (!post) {
+    return <div>Loading...</div>;
+  }
+  console.log(post)
   return (
     <div className="singlePage">
       <div className="details">
         <div className="wrapper">
-          <Slider images={singlePostData.images} />
+          <Slider images={post.post.images} />
+          {
+console.log(post)
+          }
           <div className="info">
             <div className="top">
               <div className="post">
-                <h1>{singlePostData.title}</h1>
+                <h1>{post.post.title}</h1>
                 <div className="address">
                   <img src="/pin.png" alt="" />
-                  <span>{singlePostData.address}</span>
+                  <span>{post.post.address}</span>
                 </div>
-                <div className="price">$ {singlePostData.price}</div>
+                <div className="price">$ {post.post.price}</div>
               </div>
               <div className="user">
-                <img src={userData.img} alt="" />
-                <span>{userData.name}</span>
+                <img src={currentUser.avatar} alt="" />
+                <span>{currentUser.username}</span>
               </div>
             </div>
-            <div className="bottom">{singlePostData.description}</div>
+            <div className="bottom">{post.post.description}</div>
           </div>
         </div>
       </div>
       <div className="features">
         <div className="wrapper">
-          <p className="title">General</p>
+          <p className="title">{post.post.title}</p>
           <div className="listVertical">
             <div className="feature">
               <img src="/utility.png" alt="" />
