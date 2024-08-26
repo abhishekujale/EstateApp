@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose")
 const express = require("express")
-const { user } = require('../db'); // Ensure you import the correct User model
+const { User } = require('../db'); // Ensure you import the correct User model
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const cookieParser = require('cookie-parser');
@@ -26,7 +26,7 @@ const signup = async (req, res) => {
 
     try {
 
-        const existingUser = await user.findOne({
+        const existingUser = await User.findOne({
             email
         });
         if (existingUser) {
@@ -37,7 +37,7 @@ const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log(hashedPassword);
 
-        const newUser = await user.create({
+        const newUser = await User.create({
             email,
             username,
             avatar,
@@ -67,12 +67,12 @@ const login = async (req, res) => {
 
     try {
         // Corrected the model reference to `User` instead of `user`
-        const User = await user.findOne({ username: req.body.username });
+        const user = await User.findOne({ username: req.body.username });
 
-        if (!User) return res.status(400).json({ message: "Invalid Credentials!" });
+        if (!user) return res.status(400).json({ message: "Invalid Credentials!" });
 
         // CHECK IF THE PASSWORD IS CORRECT
-        const isPasswordValid = await bcrypt.compare(password, User.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid)
             return res.status(400).json({ message: "Invalid Credentials!" });
@@ -89,7 +89,7 @@ const login = async (req, res) => {
             { expiresIn: age }
         );
 
-        const { password: userPassword, ...userInfo } = User._doc; // Ensure correct extraction of user information
+        const { password: userPassword, ...userInfo } = user._doc; // Ensure correct extraction of user information
 
         res
             .cookie("token", token, {

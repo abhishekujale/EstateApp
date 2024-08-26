@@ -28,11 +28,13 @@ const getUser = async (req, res) => {
     }
 }
 const updateUsers = async (req, res) => {
-    console.log("User Model", User);
+    // console.log("User Model", User);
     const id = req.params.id;
-    const tokenUserId = req.userId;
+    const tokenUserId = req.body.userId;
     const { password, avatar, ...inputs } = req.body;
     let updatedPassword = null;
+    // console.log(id);
+    console.log(req);
     if (id !== tokenUserId) {
         return res.status(403).json({ message: "Not Authorized!" });
     }

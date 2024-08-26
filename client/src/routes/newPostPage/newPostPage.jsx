@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./newPostPage.scss";
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import apiRequest from "../../lib/apiRequest";
 import UploadWidget from "../../components/uploadWidget/UploadWidget";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 function NewPostPage() {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("")
 const [images,setImages]=useState([])
-
+  const { currentUser } = useContext(AuthContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target)
@@ -18,7 +19,7 @@ const [images,setImages]=useState([])
     try {
       const res = await apiRequest.post("/post", {
      //////2:49:40 
-       postData:{
+        postData: {
           title: inputs.title,
           price: parseInt(inputs.price),
           address: inputs.address,
@@ -29,7 +30,8 @@ const [images,setImages]=useState([])
           property: inputs.property,
           latitude: inputs.latitude,
           longitude: inputs.longitude,
-          images:images
+          images: images,
+          userId:currentUser._id
         },
         PostDetail: {
         desc: value,
@@ -40,7 +42,7 @@ const [images,setImages]=useState([])
         school: inputs.school,
         bus: parseInt(inputs.bus),
         restaurant:parseInt(inputs.restaurant)
-      }
+        },
       }
       )
       navigate(`/${res.data?.newPost?._id}`)
@@ -49,6 +51,8 @@ const [images,setImages]=useState([])
     }
     catch (err)
     {
+      console.log(currentUser._id)
+      console.log(err)
       setError(err.response?.data?.message || "An error occurred. Please try again.");
       console.log(err)// Extract error message
     }

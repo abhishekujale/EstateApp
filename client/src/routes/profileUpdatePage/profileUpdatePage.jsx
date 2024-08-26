@@ -23,7 +23,8 @@ function ProfileUpdatePage() {
           username,
           email,
           password,
-          avatar:avatar[0]
+          avatar: avatar[0],
+          userId:currentUser._id
         });
       updateUser(res.data) 
      navigate("/")
