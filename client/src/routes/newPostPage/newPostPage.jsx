@@ -31,9 +31,7 @@ const [images,setImages]=useState([])
           latitude: inputs.latitude,
           longitude: inputs.longitude,
           images: images,
-          userId:currentUser._id
-        },
-        PostDetail: {
+          userId:currentUser._id,
         desc: value,
         utilities: inputs.utilities,
         pet: inputs.pet,

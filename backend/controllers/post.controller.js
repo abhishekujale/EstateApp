@@ -41,20 +41,24 @@ exports.getPost = async (req, res) => {
 exports.addPost = async (req, res) => {
 
     const body = req.body;
+    // console.log(body);
+    console.log("_-_______________---______");
+    // console.log(req.body);
     const tokenUserId = req.body.postData.userId;
-    console.log(tokenUserId);
+    // console.log(tokenUserId);
+    // console.log(body.postData);
     try {
         const newPost = await Post.create({
             ...body.postData,
             userId: tokenUserId,
-            PostDetail: body.PostDetail
+            // PostDetail: body.PostDetail
         });
         res.status(200).json({
             newPost
         })
     }
     catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(500).json({
             message: "Error while  adding post"
         })

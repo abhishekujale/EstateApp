@@ -47,10 +47,6 @@ const PostSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     postDetail: { type: Schema.Types.ObjectId, ref: 'PostDetail' },
     savedPosts: [{ type: Schema.Types.ObjectId, ref: 'SavedPost' }],
-});
-
-// PostDetail Schema
-const PostDetailSchema = new Schema({
     desc: { type: String, required: true },
     utilities: { type: String },
     pet: { type: String },
@@ -59,8 +55,21 @@ const PostDetailSchema = new Schema({
     school: { type: Number },
     bus: { type: Number },
     restaurant: { type: Number },
-    post: { type: Schema.Types.ObjectId, ref: 'Post', required: true, unique: true },
+
 });
+
+// PostDetail Schema
+// const PostDetailSchema = new Schema({
+//     desc: { type: String, required: true },
+//     utilities: { type: String },
+//     pet: { type: String },
+//     income: { type: String },
+//     size: { type: Number },
+//     school: { type: Number },
+//     bus: { type: Number },
+//     restaurant: { type: Number },
+//     post: { type: Schema.Types.ObjectId, ref: 'Post', required: true, unique: true },
+// });
 
 // SavedPost Schema
 const SavedPostSchema = new Schema({
@@ -92,7 +101,7 @@ const MessageSchema = new Schema({
 // Registering Models
 const User = model('User', UserSchema);
 const Post = model('Post', PostSchema);
-const PostDetail = model('PostDetail', PostDetailSchema);
+// const PostDetail = model('PostDetail', PostDetailSchema);
 const SavedPost = model('SavedPost', SavedPostSchema);
 const Chat = model('Chat', ChatSchema);
 const Message = model('Message', MessageSchema);
@@ -100,7 +109,7 @@ const Message = model('Message', MessageSchema);
 module.exports = {
     User,
     Post,
-    PostDetail,
+    // PostDetail,
     SavedPost,
     Chat,
     Message,
