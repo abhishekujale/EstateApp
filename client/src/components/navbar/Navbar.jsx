@@ -12,13 +12,13 @@ function Navbar() {
     <nav>
       <div className="left">
         <a href="/" className="logo">
-            <img src="/logo.png" alt=""  />
+            <img src="/logo.png" alt="" />
           <span>MAX Estate</span>
         </a>
-        <a href="/">Home</a>
-        <a href="/">About</a>
-        <a href="/">Contact</a>
-        <a href="/">Agents</a>
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
+        <a href="/"></a>
       </div>
       <div className="right">
         {currentUser ? (
